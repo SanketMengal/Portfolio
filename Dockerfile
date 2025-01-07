@@ -1,8 +1,14 @@
-# Use the official Nginx image as the base
-FROM nginx:alpine
+# Use the official Tomcat image from Docker Hub
+FROM tomcat:9.0
 
-# Copy static website files to the default Nginx directory
-COPY . /usr/share/nginx/html
+# Remove the default web apps (optional)
+RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Expose port 80
-EXPOSE 80
+# Copy your static website files into the webapps directory
+COPY ./your-website /usr/local/tomcat/webapps/ROOT
+
+# Expose the Tomcat default port
+EXPOSE 8080
+
+# Start Tomcat
+CMD ["catalina.sh", "run"]
